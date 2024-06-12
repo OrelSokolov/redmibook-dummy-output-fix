@@ -1,5 +1,38 @@
 # RedmiBook Pro 16 2024 Intel and Ubuntu 24.04
 
+
+## Microphone and Sound Fix, works well without any alsa options
+
+Use Linux Kernel version after 6.10rc2 or 6.10rc2
+
+Download topology:
+
+https://github.com/thesofproject/linux/issues/4973#issuecomment-2099838538
+
+```
+locate:
+
+/usr/lib/firmware/intel/sof-ipc4-tplg/sof-hda-generic-4ch.tplg
+/usr/lib/firmware/intel/sof-ipc4-tplg-v2.9/sof-hda-generic-4ch.tplg
+/usr/lib/firmware/intel/sof-ipc4-tplg-v2.9/sof-hda-generic-4ch.tplg.zst
+/usr/lib/firmware/intel/sof-tplg/sof-hda-generic-4ch.tplg
+/usr/lib/firmware/intel/sof-tplg/sof-hda-generic-4ch.tplg.zst
+oleg@xia:~$ sudo mv /usr/lib/firmware/intel/sof-ipc4-tplg/sof-hda-generic-4ch.tplg sof-hda-generic-4cch.tplg.old
+[sudo] password for oleg: 
+oleg@xia:~$ sudo mv /usr/lib/firmware/intel/sof-tplg/sof-hda-generic-4ch.tplg sof-hda-generic-4ch.tplg.old
+oleg@xia:~$ cp sof-hda-generic-4c
+sof-hda-generic-4cch.tplg.old  sof-hda-generic-4ch.tplg       sof-hda-generic-4ch.tplg.old   
+oleg@xia:~$ sudo cp sof-hda-generic-4ch.tplg /usr/lib/firmware/intel/sof-ipc4-tplg/
+oleg@xia:~$ sudo cp sof-hda-generic-4ch.tplg /usr/lib/firmware/intel/sof-tplg/ 
+```
+
+For more information see this thread started by me:
+
+https://github.com/thesofproject/linux/issues/5053
+
+
+## Below linux kernel 6.10 there is only fix for sound
+
 Ubuntu 24.04, 23.10 and etc have issues with sound setup. Windows works well "from the box", 
 drivers are pulled automatically through updates.
 
@@ -59,4 +92,5 @@ $ sudo hwinfo --sound
   Config Status: cfg=new, avail=yes, need=no, active=unknown
 
 ```
+
 
